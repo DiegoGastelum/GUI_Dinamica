@@ -48,6 +48,8 @@ namespace GUI_Dinamica
             TextBox newTextBox = new TextBox();
             newTextBox.Size = new Size(150, 30);
             newTextBox.Location = new Point(140, 60 + dynamicTextBoxes.Count * 40);
+            newTextBox.KeyPress += DynamicTextKeyPress;
+            newTextBox.Tag = controlCounter;
 
             dynamicTextBoxes.Add(newTextBox);
             dynamicButtons.Add(newButton);
@@ -60,7 +62,29 @@ namespace GUI_Dinamica
         private void DynamicButtonClick(object sender, EventArgs e)
         {
             Button clickedButton = sender as Button;
-            MessageBox.Show("Has presionado: " + clickedButton.Text);
+        }
+
+        private void DynamicTextKeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox PressedText = sender as TextBox;
+
+            int idx = (int) PressedText.Tag;
+
+            if (idx % 2 == 0)
+            {
+                if (!char.IsLetter(e.KeyChar) && !char.IsControl(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
+            }
+            else
+            {
+                if (!char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar))
+                {
+                    e.Handled = true;
+                }
+            }
+
         }
 
     }
